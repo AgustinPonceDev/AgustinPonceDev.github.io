@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agustín Ponce — Analista de Sistemas en formación</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F7F8FB;
+    --surface:#FFFFFF;
+    --ink:#15203B;
+    --ink-soft:#525C72;
+    --accent:#1B3B6F;
+    --accent-2:#2E5BFF;
+    --tint:#E8EDFB;
+    --border:#E1E5EC;
+    --footer-bg:#101A33;
+    --footer-text:#C7D1EC;
+    --font-display:'Fraunces', serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+    --maxw:980px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  section{scroll-margin-top:84px;}
+
+  ::selection{background:var(--tint); color:var(--accent);}
+
+  .container{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  /* ---------- NAV ---------- */
+  header.site-nav{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(247,248,251,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-inner{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:14px 28px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    color:var(--ink);
+  }
+  .monogram{
+    width:34px;height:34px;
+    border-radius:50%;
+    border:1.5px solid var(--accent);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:14px;
+    color:var(--accent);
+    flex-shrink:0;
+  }
+  .brand-name{
+    font-weight:600;
+    font-size:15px;
+    letter-spacing:0.01em;
+  }
+  nav.links{
+    display:flex;
+    gap:26px;
+    list-style:none;
+    margin:0;padding:0;
+    font-size:14px;
+  }
+  nav.links a{
+    text-decoration:none;
+    color:var(--ink-soft);
+    font-weight:500;
+    transition:color .15s ease;
+  }
+  nav.links a:hover, nav.links a:focus-visible{color:var(--accent);}
+
+  .nav-toggle{
+    display:none;
+    background:none;
+    border:1px solid var(--border);
+    border-radius:8px;
+    width:38px;height:38px;
+    align-items:center;justify-content:center;
+    cursor:pointer;
+  }
+  .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after{
+    content:'';
+    display:block;
+    width:18px;height:2px;
+    background:var(--ink);
+    position:relative;
+    transition:transform .2s ease, opacity .2s ease;
+  }
+  .nav-toggle span::before{position:absolute; top:-6px;}
+  .nav-toggle span::after{position:absolute; top:6px;}
+
+  /* ---------- EYEBROW ---------- */
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    letter-spacing:0.02em;
+    color:var(--accent-2);
+    margin:0 0 14px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:16px;height:1px;
+    background:var(--accent-2);
+    display:inline-block;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:96px 0 72px;
+  }
+  .hero h1{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(40px, 6.4vw, 68px);
+    line-height:1.04;
+    margin:0 0 14px;
+    letter-spacing:-0.01em;
+  }
+  .hero .role{
+    font-size:18px;
+    color:var(--ink-soft);
+    margin:0 0 26px;
+    max-width:560px;
+  }
+  .badges{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:30px;
+  }
+  .badge{
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    background:var(--tint);
+    color:var(--accent);
+    border-radius:6px;
+    padding:6px 11px;
+    white-space:nowrap;
+  }
+  .badge b{font-weight:600;}
+  .badge .dot{
+    display:inline-block;
+    width:6px;height:6px;
+    border-radius:50%;
+    background:#2FA86A;
+    margin-right:6px;
+    position:relative;
+    top:-1px;
+  }
+  @media (prefers-reduced-motion: no-preference){
+    .badge .dot{animation: pulse 2.2s ease-in-out infinite;}
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1;}
+    50%{opacity:.35;}
+  }
+
+  .hero p.bio{
+    font-size:16.5px;
+    color:var(--ink-soft);
+    max-width:620px;
+    margin:0 0 34px;
+  }
+
+  .cta-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:14.5px;
+    text-decoration:none;
+    padding:13px 22px;
+    border-radius:9px;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn-primary{
+    background:var(--accent);
+    color:#fff;
+  }
+  .btn-primary:hover{background:var(--accent-2); transform:translateY(-1px); box-shadow:0 8px 20px -8px rgba(46,91,255,.55);}
+  .btn-ghost{
+    background:transparent;
+    color:var(--ink);
+    border:1px solid var(--border);
+  }
+  .btn-ghost:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-1px);}
+
+  /* ---------- SECTION GENERIC ---------- */
+  section.block{
+    padding:64px 0;
+    border-top:1px solid var(--border);
+  }
+  h2.section-title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(26px,3.4vw,34px);
+    margin:0 0 12px;
+    letter-spacing:-0.01em;
+  }
+  p.section-lede{
+    color:var(--ink-soft);
+    max-width:560px;
+    margin:0 0 40px;
+    font-size:15.5px;
+  }
+
+  /* ---------- SKILLS ---------- */
+  .skills-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(210px,1fr));
+    gap:1px;
+    background:var(--border);
+    border:1px solid var(--border);
+    border-radius:14px;
+    overflow:hidden;
+  }
+  .skill-card{
+    background:var(--surface);
+    padding:24px 22px;
+  }
+  .skill-card h3{
+    font-size:13px;
+    font-family:var(--font-mono);
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    color:var(--ink-soft);
+    margin:0 0 14px;
+    font-weight:500;
+  }
+  .tag-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+  }
+  .tag{
+    font-size:13px;
+    padding:5px 10px;
+    border-radius:6px;
+    background:var(--bg);
+    border:1px solid var(--border);
+    color:var(--ink);
+  }
+
+  /* ---------- PROJECTS ---------- */
+  .project{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:30px 32px;
+    margin-bottom:18px;
+    transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .project:hover{
+    transform:translateY(-3px);
+    box-shadow:0 18px 36px -22px rgba(21,32,59,.28);
+    border-color:#cfd7ea;
+  }
+  .project-top{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:12px;
+    justify-content:space-between;
+    margin-bottom:10px;
+  }
+  .project h3{
+    font-family:var(--font-display);
+    font-size:21px;
+    font-weight:600;
+    margin:0;
+  }
+  .status{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    color:var(--accent);
+    background:var(--tint);
+    padding:4px 10px;
+    border-radius:20px;
+    white-space:nowrap;
+  }
+  .project p.desc{
+    color:var(--ink-soft);
+    margin:0 0 18px;
+    font-size:15px;
+    max-width:680px;
+  }
+  .project-bottom{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:14px;
+  }
+  .project-link{
+    font-size:14px;
+    font-weight:600;
+    color:var(--accent);
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+  }
+  .project-link:hover{color:var(--accent-2);}
+  .project-link svg{width:14px;height:14px;}
+
+  /* ---------- EDUCATION ---------- */
+  .edu-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:30px 32px;
+    margin-bottom:16px;
+  }
+  .edu-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:8px;
+  }
+  .edu-head h3{
+    font-family:var(--font-display);
+    font-size:20px;
+    margin:0;
+    font-weight:600;
+  }
+  .edu-date{
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    color:var(--ink-soft);
+  }
+  .edu-card p.institution{
+    margin:0 0 16px;
+    color:var(--ink-soft);
+    font-size:14.5px;
+  }
+  .chip-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .chip{
+    font-size:12.5px;
+    padding:5px 10px;
+    border-radius:6px;
+    background:var(--bg);
+    color:var(--ink-soft);
+    border:1px solid var(--border);
+  }
+  .badge-mini{
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:#B8860B;
+    background:#FBF3DD;
+    padding:3px 9px;
+    border-radius:20px;
+  }
+
+  /* ---------- TRAYECTORIA ---------- */
+  .trayectoria-lede{
+    color:var(--ink-soft);
+    max-width:620px;
+    margin:0 0 32px;
+    font-size:15.5px;
+  }
+  .job{
+    display:grid;
+    grid-template-columns:170px 1fr;
+    gap:18px;
+    padding:18px 0;
+    border-top:1px solid var(--border);
+  }
+  .job:last-child{border-bottom:1px solid var(--border);}
+  .job-date{
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    color:var(--ink-soft);
+    padding-top:2px;
+  }
+  .job h4{
+    margin:0 0 4px;
+    font-size:15.5px;
+    font-weight:600;
+  }
+  .job p{
+    margin:0;
+    font-size:14.5px;
+    color:var(--ink-soft);
+  }
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  footer.contact{
+    background:var(--footer-bg);
+    color:var(--footer-text);
+    padding:84px 0 40px;
+    margin-top:40px;
+  }
+  footer .eyebrow{color:#7C93D6;}
+  footer .eyebrow::before{background:#7C93D6;}
+  footer h2{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(30px,4.4vw,46px);
+    color:#fff;
+    margin:0 0 16px;
+    letter-spacing:-0.01em;
+  }
+  footer p.lede{
+    max-width:520px;
+    margin:0 0 36px;
+    color:#A9B6DA;
+    font-size:15.5px;
+  }
+  .contact-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:28px;
+    margin-bottom:48px;
+  }
+  .contact-item .label{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    color:#7C93D6;
+    margin-bottom:8px;
+    display:block;
+  }
+  .contact-item a, .contact-item span.val{
+    color:#fff;
+    text-decoration:none;
+    font-size:15.5px;
+    font-weight:500;
+  }
+  .contact-item a:hover{color:#9CB3FF;}
+  .contact-item .alt{
+    display:block;
+    margin-top:4px;
+    font-size:13px;
+    color:#8493BC;
+    text-decoration:none;
+  }
+  .contact-item .alt:hover{color:#A9B6DA;}
+
+  footer .bottom-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:10px;
+    padding-top:28px;
+    border-top:1px solid rgba(255,255,255,0.08);
+    font-size:13px;
+    color:#6E7DA3;
+  }
+
+  /* ---------- REVEAL ---------- */
+  /* Visible by default; only animates if JS adds .has-js to <html> (progressive enhancement) */
+  .reveal{
+    opacity:1;
+    transform:none;
+  }
+  html.has-js .reveal{
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  html.has-js .reveal.is-visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    html.has-js .reveal{opacity:1; transform:none; transition:none;}
+    .badge .dot{animation:none;}
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:760px){
+    .nav-toggle{display:flex;}
+    nav.links{
+      position:absolute;
+      top:64px;
+      left:0;right:0;
+      background:var(--surface);
+      border-bottom:1px solid var(--border);
+      flex-direction:column;
+      gap:0;
+      padding:8px 0;
+      display:none;
+    }
+    nav.links.open{display:flex;}
+    nav.links a{
+      padding:13px 28px;
+      display:block;
+      border-top:1px solid var(--border);
+    }
+    .hero{padding:56px 0 48px;}
+    section.block{padding:48px 0;}
+    .job{grid-template-columns:1fr; gap:4px;}
+    .project{padding:24px 22px;}
+    .edu-card{padding:24px 22px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand">
+      <span class="monogram">AP</span>
+      <span class="brand-name">Agustín Ponce</span>
+    </a>
+    <button class="nav-toggle" aria-label="Abrir menú" id="navToggle"><span></span></button>
+    <nav class="links" id="navLinks">
+      <a href="#stack">Stack</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#educacion">Educación</a>
+      <a href="#trayectoria">Trayectoria</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero container">
+    <p class="eyebrow">// hola</p>
+    <h1>Agustín Ponce</h1>
+    <p class="role">Técnico en Análisis de Sistemas (en formación) — San Nicolás de los Arroyos, Argentina</p>
+
+    <div class="badges">
+      <span class="badge"><span class="dot"></span><b>estado:</b> buscando primera oportunidad IT</span>
+      <span class="badge"><b>stack:</b> C# · PHP · JavaScript</span>
+      <span class="badge"><b>egreso:</b> dic. 2026</span>
+    </div>
+
+    <p class="bio">
+      Estudiante avanzado de la Tecnicatura Superior en Análisis de Sistemas (ISFT N°38), a pocos meses de
+      recibirme. Combino una base sólida en lógica, bases de datos y arquitectura de software con experiencia
+      práctica construyendo aplicaciones reales: desde sistemas de gestión en PHP y Laravel hasta mis primeros
+      pasos en el ecosistema .NET (C#, ASP.NET Core MVC, Entity Framework). Soy una persona proactiva y organizada,
+      acostumbrada a resolver problemas bajo presión, y estoy buscando mi primera oportunidad para crecer como
+      desarrollador.
+    </p>
+
+    <div class="cta-row">
+      <a class="btn btn-primary" href="mailto:agusk0910@gmail.com">Escribime</a>
+      <a class="btn btn-ghost" href="#proyectos">Ver proyectos</a>
+    </div>
+  </section>
+
+  <section class="block container reveal" id="stack">
+    <p class="eyebrow">// stack</p>
+    <h2 class="section-title">Lo que sé hacer (y lo que estoy aprendiendo)</h2>
+    <p class="section-lede">Una base formada en la carrera, reforzada con proyectos propios y un foco actual en .NET.</p>
+
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h3>Backend</h3>
+        <div class="tag-list">
+          <span class="tag">C#</span>
+          <span class="tag">ASP.NET Core MVC</span>
+          <span class="tag">Entity Framework</span>
+          <span class="tag">LINQ</span>
+          <span class="tag">PHP</span>
+          <span class="tag">Laravel</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Bases de datos</h3>
+        <div class="tag-list">
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">SQL Server</span>
+          <span class="tag">MySQL</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Frontend</h3>
+        <div class="tag-list">
+          <span class="tag">HTML5</span>
+          <span class="tag">CSS3</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">Bootstrap 5</span>
+          <span class="tag">Razor Views</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Herramientas</h3>
+        <div class="tag-list">
+          <span class="tag">Git</span>
+          <span class="tag">GitHub</span>
+          <span class="tag">Visual Studio</span>
+          <span class="tag">Docker</span>
+          <span class="tag">APIs / IA</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Idiomas</h3>
+        <div class="tag-list">
+          <span class="tag">Español — nativo</span>
+          <span class="tag">Inglés — avanzado</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block container reveal" id="proyectos">
+    <p class="eyebrow">// proyectos</p>
+    <h2 class="section-title">Proyectos</h2>
+    <p class="section-lede">Tres proyectos que muestran cómo paso de la teoría al código.</p>
+
+    <div class="project">
+      <div class="project-top">
+        <h3>MedStats</h3>
+        <span class="status">en desarrollo</span>
+      </div>
+      <p class="desc">
+        Proyecto de Práctica Profesional 3, desarrollado en equipo. Estoy sumando nuevos módulos a un sistema
+        de gestión y estadísticas construido sobre Laravel.
+      </p>
+      <div class="project-bottom">
+        <div class="tag-list">
+          <span class="tag">Laravel</span>
+          <span class="tag">PHP</span>
+          <span class="tag">MySQL</span>
+          <span class="tag">Tailwind CSS</span>
+        </div>
+        <a class="project-link" href="https://github.com/Juliaanbz/MedStats-PP3/" target="_blank" rel="noopener">
+          Ver repositorio
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-top">
+        <h3>Sistema de Gestión de Viandas</h3>
+        <span class="status">finalizado</span>
+      </div>
+      <p class="desc">
+        Aplicación web para gestionar pedidos de viandas, pensada para uso en el Ejército Argentino. Incluye
+        registro y login de usuarios, panel de control, selección y cancelación de viandas, y recuperación de
+        contraseña.
+      </p>
+      <div class="project-bottom">
+        <div class="tag-list">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">PHP</span>
+          <span class="tag">MySQL</span>
+          <span class="tag">Docker</span>
+        </div>
+        <a class="project-link" href="https://github.com/AgustinPonceDev/Php-Final" target="_blank" rel="noopener">
+          Ver repositorio
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-top">
+        <h3>Biblioteca</h3>
+        <span class="status">proyecto personal</span>
+      </div>
+      <p class="desc">
+        Sistema de gestión bibliotecaria desarrollado por mi cuenta para practicar Laravel de punta a punta:
+        modelos, rutas, migraciones de base de datos y vistas Blade.
+      </p>
+      <div class="project-bottom">
+        <div class="tag-list">
+          <span class="tag">Laravel</span>
+          <span class="tag">PHP</span>
+          <span class="tag">MySQL</span>
+        </div>
+        <a class="project-link" href="https://github.com/AgustinPonceDev/biblioteca" target="_blank" rel="noopener">
+          Ver repositorio
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block container reveal" id="educacion">
+    <p class="eyebrow">// educación</p>
+    <h2 class="section-title">Formación</h2>
+
+    <div class="edu-card">
+      <div class="edu-head">
+        <h3>Tecnicatura Superior en Análisis de Sistemas</h3>
+        <span class="edu-date">2024 — actualidad</span>
+      </div>
+      <p class="institution">Instituto Superior de Formación Técnica N°38 (ISFT 38), San Nicolás de los Arroyos · <span class="badge-mini">promedio destacado</span> · egreso estimado dic. 2026</p>
+      <div class="chip-row">
+        <span class="chip">Algoritmos y Estructuras de Datos</span>
+        <span class="chip">Ingeniería de Software</span>
+        <span class="chip">Base de Datos</span>
+        <span class="chip">Sistemas Operativos</span>
+        <span class="chip">Redes y Comunicaciones</span>
+        <span class="chip">Arquitectura de las Computadoras</span>
+        <span class="chip">Estadística</span>
+      </div>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-head">
+        <h3>Bachiller en Ciencias Sociales</h3>
+        <span class="edu-date">2012 — 2019</span>
+      </div>
+      <p class="institution" style="margin-bottom:0;">Escuela Secundaria José Félix Bogado</p>
+    </div>
+  </section>
+
+  <section class="block container reveal" id="trayectoria">
+    <p class="eyebrow">// trayectoria</p>
+    <h2 class="section-title">Antes del código</h2>
+    <p class="trayectoria-lede">
+      Mi camino hacia los sistemas no empezó en un aula. Estos trabajos me enseñaron disciplina, trabajo en
+      equipo y a resolver problemas rápido — hoy aplico lo mismo escribiendo código.
+    </p>
+
+    <div class="job">
+      <div class="job-date">jul. 2022 — actualidad</div>
+      <div>
+        <h4>Logística y reparto · Pedidos Ya</h4>
+        <p>Planificación de rutas y resolución de problemas en tiempo real durante los envíos.</p>
+      </div>
+    </div>
+    <div class="job">
+      <div class="job-date">oct. 2022 — sep. 2023</div>
+      <div>
+        <h4>Operario de puente grúa · Sidersa S.A.</h4>
+        <p>Manejo de maquinaria pesada y trabajo en equipo bajo protocolos estrictos de seguridad.</p>
+      </div>
+    </div>
+    <div class="job">
+      <div class="job-date">mar. 2021 — sep. 2021</div>
+      <div>
+        <h4>Operario calificado · Motomel, La Emilia SRL</h4>
+        <p>Control de calidad y operación de maquinaria de inyección industrial.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="contact" id="contacto">
+  <div class="container">
+    <p class="eyebrow">// contacto</p>
+    <h2>Hablemos</h2>
+    <p class="lede">
+      Estoy terminando la carrera y buscando mi primera oportunidad en sistemas. Si tenés un proyecto, una
+      pasantía, o simplemente querés charlar de tecnología, escribime.
+    </p>
+
+    <div class="contact-grid">
+      <div class="contact-item">
+        <span class="label">Email</span>
+        <a href="mailto:agusk0910@gmail.com">agusk0910@gmail.com</a>
+        <a class="alt" href="mailto:agustin-0910@hotmail.com.ar">agustin-0910@hotmail.com.ar</a>
+      </div>
+      <div class="contact-item">
+        <span class="label">Teléfono</span>
+        <a href="tel:+5493364593345">+54 9 3364 593345</a>
+      </div>
+      <div class="contact-item">
+        <span class="label">LinkedIn</span>
+        <a href="https://www.linkedin.com/in/devagustinponce/" target="_blank" rel="noopener">/in/devagustinponce</a>
+      </div>
+      <div class="contact-item">
+        <span class="label">GitHub</span>
+        <a href="https://github.com/AgustinPonceDev" target="_blank" rel="noopener">@AgustinPonceDev</a>
+      </div>
+      <div class="contact-item">
+        <span class="label">Ubicación</span>
+        <span class="val">San Nicolás de los Arroyos, Buenos Aires</span>
+      </div>
+    </div>
+
+    <div class="bottom-row">
+      <span>Agustín Ponce © 2026</span>
+      <span>Hecho con prolijidad, módulo a módulo.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.documentElement.classList.add('has-js');
+
+  // Mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+
+  // Scroll reveal
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealEls = document.querySelectorAll('.reveal');
+  if (reduceMotion) {
+    revealEls.forEach(el => el.classList.add('is-visible'));
+  } else if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('is-visible'));
+  }
+</script>
+
+</body>
+</html>

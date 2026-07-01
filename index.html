@@ -19,10 +19,25 @@
     --border:#E1E5EC;
     --footer-bg:#101A33;
     --footer-text:#C7D1EC;
+    --nav-bg:rgba(247,248,251,0.86);
     --font-display:'Fraunces', serif;
     --font-body:'Inter', sans-serif;
     --font-mono:'JetBrains Mono', monospace;
     --maxw:980px;
+  }
+
+  html[data-theme="dark"]{
+    --bg:#0B1220;
+    --surface:#121A2E;
+    --ink:#E7ECFB;
+    --ink-soft:#93A0C2;
+    --accent:#7C93D6;
+    --accent-2:#5B8CFF;
+    --tint:rgba(91,140,255,0.14);
+    --border:#232D47;
+    --footer-bg:#070C18;
+    --footer-text:#B7C2E8;
+    --nav-bg:rgba(11,18,32,0.86);
   }
 
   *{box-sizing:border-box;}
@@ -34,6 +49,7 @@
     font-family:var(--font-body);
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
+    transition:background-color .35s ease, color .35s ease;
   }
   img{max-width:100%;display:block;}
   a{color:inherit;}
@@ -52,9 +68,10 @@
     position:sticky;
     top:0;
     z-index:50;
-    background:rgba(247,248,251,0.86);
+    background:var(--nav-bg);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--border);
+    transition:background-color .35s ease, border-color .35s ease;
   }
   .nav-inner{
     max-width:var(--maxw);
@@ -86,6 +103,11 @@
     font-weight:600;
     font-size:15px;
     letter-spacing:0.01em;
+  }
+  .nav-right{
+    display:flex;
+    align-items:center;
+    gap:18px;
   }
   nav.links{
     display:flex;
@@ -121,6 +143,71 @@
   }
   .nav-toggle span::before{position:absolute; top:-6px;}
   .nav-toggle span::after{position:absolute; top:6px;}
+
+  /* ---------- THEME TOGGLE ---------- */
+  .theme-toggle{
+    -webkit-appearance:none;
+    appearance:none;
+    background:none;
+    border:none;
+    padding:0;
+    cursor:pointer;
+    flex-shrink:0;
+    line-height:0;
+  }
+  .theme-toggle .toggle-track{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:56px;
+    height:28px;
+    padding:0 6px;
+    border-radius:999px;
+    background:var(--tint);
+    border:1px solid var(--border);
+    transition:background-color .35s ease, border-color .35s ease;
+  }
+  .toggle-track svg.rail-icon{
+    width:13px;
+    height:13px;
+    position:relative;
+    z-index:1;
+  }
+  .rail-icon.rail-sun{color:#C98A2B;}
+  html[data-theme="dark"] .rail-icon.rail-sun{color:#5A6584;}
+  .rail-icon.rail-moon{color:#8791AE;}
+  html[data-theme="dark"] .rail-icon.rail-moon{color:#C9D3F2;}
+  .toggle-knob{
+    position:absolute;
+    top:2px;
+    left:2px;
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    background:#FFD166;
+    box-shadow:0 2px 6px rgba(21,32,59,.28);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transform:translateX(0);
+    transition:transform .4s cubic-bezier(.4,0,.2,1), background-color .4s ease;
+  }
+  html[data-theme="dark"] .toggle-knob{
+    transform:translateX(28px);
+    background:#1B2A4A;
+  }
+  .knob-icon{
+    width:13px;
+    height:13px;
+    position:absolute;
+    color:#fff;
+    transition:opacity .25s ease, transform .3s ease;
+  }
+  .knob-icon.knob-sun{opacity:1; transform:rotate(0deg) scale(1);}
+  .knob-icon.knob-moon{opacity:0; transform:rotate(-90deg) scale(.6);}
+  html[data-theme="dark"] .knob-icon.knob-sun{opacity:0; transform:rotate(90deg) scale(.6);}
+  html[data-theme="dark"] .knob-icon.knob-moon{opacity:1; transform:rotate(0deg) scale(1);}
 
   /* ---------- EYEBROW ---------- */
   .eyebrow{
@@ -231,6 +318,7 @@
   section.block{
     padding:64px 0;
     border-top:1px solid var(--border);
+    transition:border-color .35s ease;
   }
   h2.section-title{
     font-family:var(--font-display);
@@ -255,10 +343,12 @@
     border:1px solid var(--border);
     border-radius:14px;
     overflow:hidden;
+    transition:background-color .35s ease, border-color .35s ease;
   }
   .skill-card{
     background:var(--surface);
     padding:24px 22px;
+    transition:background-color .35s ease;
   }
   .skill-card h3{
     font-size:13px;
@@ -281,6 +371,7 @@
     background:var(--bg);
     border:1px solid var(--border);
     color:var(--ink);
+    transition:background-color .35s ease, border-color .35s ease, color .35s ease;
   }
 
   /* ---------- PROJECTS ---------- */
@@ -290,12 +381,15 @@
     border-radius:16px;
     padding:30px 32px;
     margin-bottom:18px;
-    transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    transition:transform .18s ease, box-shadow .18s ease, border-color .35s ease, background-color .35s ease;
   }
   .project:hover{
     transform:translateY(-3px);
     box-shadow:0 18px 36px -22px rgba(21,32,59,.28);
     border-color:#cfd7ea;
+  }
+  html[data-theme="dark"] .project:hover{
+    border-color:#37436b;
   }
   .project-top{
     display:flex;
@@ -352,6 +446,7 @@
     border-radius:16px;
     padding:30px 32px;
     margin-bottom:16px;
+    transition:background-color .35s ease, border-color .35s ease;
   }
   .edu-head{
     display:flex;
@@ -389,6 +484,7 @@
     background:var(--bg);
     color:var(--ink-soft);
     border:1px solid var(--border);
+    transition:background-color .35s ease, border-color .35s ease;
   }
   .badge-mini{
     font-family:var(--font-mono);
@@ -412,6 +508,7 @@
     gap:18px;
     padding:18px 0;
     border-top:1px solid var(--border);
+    transition:border-color .35s ease;
   }
   .job:last-child{border-bottom:1px solid var(--border);}
   .job-date{
@@ -437,6 +534,7 @@
     color:var(--footer-text);
     padding:84px 0 40px;
     margin-top:40px;
+    transition:background-color .35s ease;
   }
   footer .eyebrow{color:#7C93D6;}
   footer .eyebrow::before{background:#7C93D6;}
@@ -554,14 +652,26 @@
       <span class="monogram">AP</span>
       <span class="brand-name">Agustín Ponce</span>
     </a>
-    <button class="nav-toggle" aria-label="Abrir menú" id="navToggle"><span></span></button>
-    <nav class="links" id="navLinks">
-      <a href="#stack">Stack</a>
-      <a href="#proyectos">Proyectos</a>
-      <a href="#educacion">Educación</a>
-      <a href="#trayectoria">Trayectoria</a>
-      <a href="#contacto">Contacto</a>
-    </nav>
+    <div class="nav-right">
+      <nav class="links" id="navLinks">
+        <a href="#stack">Stack</a>
+        <a href="#proyectos">Proyectos</a>
+        <a href="#educacion">Educación</a>
+        <a href="#trayectoria">Trayectoria</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" type="button" role="switch" aria-checked="false" aria-label="Cambiar a modo oscuro">
+        <span class="toggle-track">
+          <svg class="rail-icon rail-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
+          <svg class="rail-icon rail-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.7 15.9A8.5 8.5 0 1 1 8.1 3.3a7 7 0 1 0 12.6 12.6Z"/></svg>
+          <span class="toggle-knob">
+            <svg class="knob-icon knob-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
+            <svg class="knob-icon knob-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.7 15.9A8.5 8.5 0 1 1 8.1 3.3a7 7 0 1 0 12.6 12.6Z"/></svg>
+          </span>
+        </span>
+      </button>
+      <button class="nav-toggle" aria-label="Abrir menú" id="navToggle"><span></span></button>
+    </div>
   </div>
 </header>
 
@@ -840,6 +950,39 @@
   navLinks.querySelectorAll('a').forEach(a => {
     a.addEventListener('click', () => navLinks.classList.remove('open'));
   });
+
+  // Theme toggle (claro / oscuro)
+  (function () {
+    const root = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+
+    function getStoredTheme() {
+      try {
+        return localStorage.getItem('theme');
+      } catch (e) {
+        return null;
+      }
+    }
+    function storeTheme(theme) {
+      try {
+        localStorage.setItem('theme', theme);
+      } catch (e) { /* almacenamiento no disponible, seguimos igual */ }
+    }
+    function applyTheme(theme) {
+      root.setAttribute('data-theme', theme);
+      themeToggle.setAttribute('aria-checked', String(theme === 'dark'));
+      themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
+    }
+
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(getStoredTheme() || (prefersDark ? 'dark' : 'light'));
+
+    themeToggle.addEventListener('click', () => {
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+      storeTheme(next);
+    });
+  })();
 
   // Scroll reveal
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

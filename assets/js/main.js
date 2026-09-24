@@ -1,44 +1,20 @@
 document.documentElement.classList.add('has-js');
 
-/* ---------- Mobile nav ---------- */
-const navToggle = document.getElementById('navToggle');
-const navLinks = document.getElementById('navLinks');
-navToggle.addEventListener('click', () => {
-  const isOpen = navLinks.classList.toggle('open');
-  navToggle.setAttribute('aria-expanded', String(isOpen));
-});
-navLinks.querySelectorAll('a').forEach(a => {
-  a.addEventListener('click', () => {
-    navLinks.classList.remove('open');
-    navToggle.setAttribute('aria-expanded', 'false');
-  });
-});
-
-/* ---------- Theme toggle (claro / oscuro) ---------- */
+/* ==========================================================================
+   1. CONSTANTES, DICCIONARIOS Y ELEMENTOS DEL DOM
+   ========================================================================== */
 const root = document.documentElement;
 const themeToggle = document.getElementById('themeToggle');
+const langToggle = document.getElementById('langToggle');
+const cert2Link = document.getElementById('cert2Link');
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
 
-function getStoredTheme() {
-  try { return localStorage.getItem('theme'); } catch (e) { return null; }
-}
-function storeTheme(theme) {
-  try { localStorage.setItem('theme', theme); } catch (e) { /* no disponible */ }
-}
-function applyTheme(theme) {
-  root.setAttribute('data-theme', theme);
-  themeToggle.setAttribute('aria-checked', String(theme === 'dark'));
-  updateThemeLabel();
-}
-const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-applyTheme(getStoredTheme() || (prefersDark ? 'dark' : 'light'));
+const CERT2_HREF = {
+  es: 'assets/certs/cisco-introduccion-ciberseguridad-es.pdf',
+  en: 'assets/certs/cisco-introduction-cybersecurity-en.pdf'
+};
 
-themeToggle.addEventListener('click', () => {
-  const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  applyTheme(next);
-  storeTheme(next);
-});
-
-/* ---------- i18n (ES / EN) ---------- */
 const I18N = {
   es: {
     nav_stack: 'Stack', nav_proyectos: 'Proyectos', nav_educacion: 'Educación',
@@ -134,34 +110,9 @@ const I18N = {
   }
 };
 
-const langToggle = document.getElementById('langToggle');
-const cert2Link = document.getElementById('cert2Link');
-const CERT2_HREF = {
-  es: 'assets/certs/cisco-introduccion-ciberseguridad-es.pdf',
-  en: 'assets/certs/cisco-introduction-cybersecurity-en.pdf'
-};
-
-function updateThemeLabel() {
-  const lang = root.getAttribute('lang') === 'en' ? 'en' : 'es';
-  const dict = I18N[lang];
-  const isDark = root.getAttribute('data-theme') === 'dark';
-  themeToggle.setAttribute('aria-label', isDark ? dict.theme_to_light : dict.theme_to_dark);
-}
-
-function applyLang(lang) {
-  const dict = I18N[lang] || I18N.es;
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (dict[key]) el.textContent = dict[key];
-  });
-  document.title = dict.doc_title;
-  root.setAttribute('lang', lang);
-  langToggle.setAttribute('data-lang', lang);
-  langToggle.setAttribute('aria-label', dict.lang_toggle_aria);
-  if (cert2Link) cert2Link.setAttribute('href', CERT2_HREF[lang] || CERT2_HREF.es);
-  updateThemeLabel();
-}
-
+/* ==========================================================================
+   2. FUNCIONES DE LÓGICA (TEMA E IDIOMA)
+   ========================================================================== */
 function getStoredLang() {
   try { return localStorage.getItem('lang'); } catch (e) { return null; }
 }
@@ -169,18 +120,112 @@ function storeLang(lang) {
   try { localStorage.setItem('lang', lang); } catch (e) { /* no disponible */ }
 }
 
+function updateThemeLabel() {
+  const lang = root.getAttribute('lang') === 'en' ? 'en' : 'es';
+  const dict = I18N[lang];
+  if (!dict) return; // Validación de seguridad extra
+  
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  if (themeToggle) {
+    themeToggle.setAttribute('aria-label', isDark ? dict.theme_to_light : dict.theme_to_dark);
+  }
+}
+
+function applyLang(lang) {
+  const dict = I18N[lang] || I18N.es;
+  
+  // Actualizar textos en el HTML
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (dict[key]) el.textContent = dict[key];
+  });
+  
+  // Actualizar atributos y estados
+  document.title = dict.doc_title;
+  root.setAttribute('lang', lang);
+  
+  if (langToggle) {
+    langToggle.setAttribute('data-lang', lang);
+    langToggle.setAttribute('aria-label', dict.lang_toggle_aria);
+  }
+  
+  if (cert2Link) {
+    cert2Link.setAttribute('href', CERT2_HREF[lang] || CERT2_HREF.es);
+  }
+  
+  // Refrescar la etiqueta del tema con el nuevo idioma
+  updateThemeLabel();
+}
+
+function getStoredTheme() {
+  try { return localStorage.getItem('theme'); } catch (e) { return null; }
+}
+function storeTheme(theme) {
+  try { localStorage.setItem('theme', theme); } catch (e) { /* no disponible */ }
+}
+function applyTheme(theme) {
+  root.setAttribute('data-theme', theme);
+  if (themeToggle) {
+    themeToggle.setAttribute('aria-checked', String(theme === 'dark'));
+  }
+  updateThemeLabel();
+}
+
+/* ==========================================================================
+   3. INICIALIZACIÓN (SE EJECUTA AL CARGAR LA PÁGINA)
+   ========================================================================== */
+
+// Configurar el Idioma
 const browserLang = (navigator.language || 'es').toLowerCase().startsWith('en') ? 'en' : 'es';
 applyLang(getStoredLang() || browserLang);
 
-langToggle.addEventListener('click', () => {
-  const next = langToggle.getAttribute('data-lang') === 'es' ? 'en' : 'es';
-  applyLang(next);
-  storeLang(next);
-});
+// Configurar el Tema
+const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+applyTheme(getStoredTheme() || (prefersDark ? 'dark' : 'light'));
 
-/* ---------- Scroll reveal ---------- */
+/* ==========================================================================
+   4. EVENT LISTENERS
+   ========================================================================== */
+
+// Botón de cambio de tema
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    storeTheme(next);
+  });
+}
+
+// Botón de cambio de idioma
+if (langToggle) {
+  langToggle.addEventListener('click', () => {
+    const next = langToggle.getAttribute('data-lang') === 'es' ? 'en' : 'es';
+    applyLang(next);
+    storeLang(next);
+  });
+}
+
+// Menú móvil
+if (navToggle && navLinks) {
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+  });
+  
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+}
+
+/* ==========================================================================
+   5. SCROLL REVEAL (ANIMACIONES AL HACER SCROLL)
+   ========================================================================== */
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const revealEls = document.querySelectorAll('.reveal');
+
 if (reduceMotion) {
   revealEls.forEach(el => el.classList.add('is-visible'));
 } else if ('IntersectionObserver' in window) {
@@ -192,6 +237,7 @@ if (reduceMotion) {
       }
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  
   revealEls.forEach(el => io.observe(el));
 } else {
   revealEls.forEach(el => el.classList.add('is-visible'));
